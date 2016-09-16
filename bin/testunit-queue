@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+ENV['RAILS_ENV'] ||= 'test'
+ENV['TEST_QUEUE_STATS'] ||= File.expand_path('../../tmp/.test_queue_stats', __FILE__)
+ENV['TEST_QUEUE_WORKERS'] ||= '4'
+
+test_dir = File.expand_path('../../test', __FILE__)
+$LOAD_PATH.unshift(test_dir) unless $LOAD_PATH.include?(test_dir)
+
+require File.expand_path('../../config/environment', __FILE__)
+require 'test_queue'
+require 'test_queue/runner/testunit'
+
+# monkey patch
+if ENV['OBJ']
+  require 'test/unit/collector/objectspace'
+  module TestQueue
+    class Runner
+      class TestUnit
+        def initialize
+          @suite = Test::Unit::Collector::ObjectSpace.new.collect
+          tests = @suite.tests.sort_by{ |s| -(stats[s.to_s] || 0) }
+          super(tests)
+        end
+      end
+    end
+  end
+end
+
+# monkey patch
+if ENV['LOAD']
+  require 'test/unit/collector/load.rb'
+  module TestQueue
+    class Runner
+      class TestUnit
+        def initialize
+          l = Test::Unit::Collector::Load.new
+          l.base = File.expand_path('../../test', __FILE__)
+          @suite = l.collect
+          tests = @suite.tests.sort_by{ |s| -(stats[s.to_s] || 0) }
+          super(tests)
+        end
+      end
+    end
+  end
+end
+
+# for Collector::Descendant and Collector::ObjectSpace
+unless ENV['LOAD']
+  ARGV.flat_map { |f|
+    if File.directory?(f)
+      Dir.glob("#{f}/**/*_test.rb")
+    elsif f.match?(/_test\.rb\z/)
+      f
+    end
+  }.compact.each { |f| require(File.absolute_path(f)) }
+end
+
+TestQueue::Runner::TestUnit.new.execute
