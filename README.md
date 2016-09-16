@@ -55,6 +55,27 @@ Starting test-queue master (/tmp/test_queue_22661_70170397695240.sock)
 
 ```
 
+Three sutes are models, parameters, and services.
+```
+$ tree test
+test
+├── controllers
+├── fixtures
+├── helpers
+├── integration
+├── mailers
+├── models
+│   ├── admin_test.rb
+│   ├── product_test.rb
+│   ├── team_test.rb
+│   └── user_test.rb
+├── parameters
+│   └── registration_parameter_test.rb
+├── services
+│   └── registration_service_test.rb
+└── test_helper.rb
+```
+
 If using Collector::ObjectSpace, it works in parallel as expected.
 ```
 $ OBJ=1 bin/testunit-queue test
