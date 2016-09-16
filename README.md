@@ -89,3 +89,10 @@ Starting test-queue master (/tmp/test_queue_25362_70298408322400.sock)
     [ 1] 2 tests, 2 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 0 notifications         1 suites in 0.0290s      (pid 25452 exit 0)
 
 ```
+
+## My Environment
+* ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
+* rails 4.2.7.1
+* test-queue 0.2.13
+* test-unit 3.2.1
+* test-unit-rails 5.0.2
