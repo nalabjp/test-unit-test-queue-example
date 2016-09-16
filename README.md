@@ -16,12 +16,12 @@ bundle exec rake test
 bin/testunit-queue test
 ```
 
-#### using Collector::ObjectSpace
-```
-OBJ=1 bin/testunit-queue test
-```
-
 #### using Collector::Load
 ```
 LOAD=1 bin/testunit-queue test
+```
+
+#### using Collector::ObjectSpace
+```
+OBJ=1 bin/testunit-queue test
 ```
