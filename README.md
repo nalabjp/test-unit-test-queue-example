@@ -76,7 +76,7 @@ test
 └── test_helper.rb
 ```
 
-If using Collector::ObjectSpace, it works in parallel as expected.
+If using Collector::ObjectSpace, it works in parallel as expected, but Collector::ObjectSpace is deprecated.
 ```
 $ OBJ=1 bin/testunit-queue test
 Starting test-queue master (/tmp/test_queue_25362_70298408322400.sock)
