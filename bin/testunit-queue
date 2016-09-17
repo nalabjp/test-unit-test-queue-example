@@ -47,7 +47,7 @@ unless ENV['LOAD']
   ARGV.flat_map { |f|
     if File.directory?(f)
       Dir.glob("#{f}/**/*_test.rb")
-    elsif f.match?(/_test\.rb\z/)
+    elsif f.match(/_test\.rb\z/)
       f
     end
   }.compact.each { |f| require(File.absolute_path(f)) }
