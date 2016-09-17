@@ -28,7 +28,7 @@ end
 
 # monkey patch
 if ENV['LOAD']
-  require 'test/unit/collector/load.rb'
+  require 'test/unit/collector/load'
   module TestQueue
     class Runner
       class TestUnit
