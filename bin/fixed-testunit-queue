@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+ENV['RAILS_ENV'] ||= 'test'
+ENV['TEST_QUEUE_STATS'] ||= File.expand_path('../../tmp/.test_queue_stats', __FILE__)
+ENV['TEST_QUEUE_WORKERS'] ||= '4'
+
+test_dir = File.expand_path('../../test', __FILE__)
+$LOAD_PATH.unshift(test_dir) unless $LOAD_PATH.include?(test_dir)
+
+require File.expand_path('../../config/environment', __FILE__)
+require 'test_queue'
+require 'test_queue/runner/testunit'
+
+# monkey patch
+require 'test/unit/collector/load'
+module TestQueue
+  class Runner
+    class TestUnit
+      def initialize
+        @suite = Test::Unit::Collector::Load.new.collect(*all_test_files)
+        tests = @suite.tests.sort_by{ |s| -(stats[s.to_s] || 0) }
+        super(tests)
+      end
+
+      def all_test_files
+        ARGV.flat_map do |f|
+          if File.directory?(f)
+            Dir.glob("#{f}/**/*.rb")
+          else
+            f
+          end
+        end
+      end
+    end
+  end
+end
+
+
+TestQueue::Runner::TestUnit.new.execute

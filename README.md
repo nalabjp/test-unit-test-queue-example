@@ -90,6 +90,21 @@ Starting test-queue master (/tmp/test_queue_25362_70298408322400.sock)
 
 ```
 
+## Resolution
+This problem can be resolved by passing all of the test files as an argument to 'Collector::Load#collect'.
+
+```
+$ bin/fixed-testunit-queue test
+Starting test-queue master (/tmp/test_queue_3282_70172082296180.sock)
+
+==> Summary (4 workers in 0.0228s)
+
+    [ 4] 2 tests, 2 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 0 notifications         1 suites in 0.0168s      (pid 3370 exit 0)
+    [ 3] 3 tests, 4 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 0 notifications         2 suites in 0.0188s      (pid 3369 exit 0)
+    [ 2] 1 tests, 2 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 0 notifications         1 suites in 0.0198s      (pid 3368 exit 0)
+    [ 1] 4 tests, 6 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 0 notifications         2 suites in 0.0205s      (pid 3367 exit 0)
+```
+
 ## My Environment
 * ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
 * rails 4.2.7.1
