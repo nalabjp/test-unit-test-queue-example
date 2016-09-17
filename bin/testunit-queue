@@ -33,9 +33,7 @@ if ENV['LOAD']
     class Runner
       class TestUnit
         def initialize
-          l = Test::Unit::Collector::Load.new
-          l.base = File.expand_path('../../test', __FILE__)
-          @suite = l.collect
+          @suite = Test::Unit::Collector::Load.new.collect(*ARGV)
           tests = @suite.tests.sort_by{ |s| -(stats[s.to_s] || 0) }
           super(tests)
         end
